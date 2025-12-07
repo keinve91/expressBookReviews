@@ -16,9 +16,18 @@ public_users.get('/', function (req, res) {
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+public_users.get('/isbn/:isbn', function (req, res) {
+  // 1. Recuperamos el ISBN de los parámetros de la URL
+  const isbn = req.params.isbn;
+  
+  // 2. Buscamos en nuestra base de datos local
+  if (books[isbn]) {
+      // Si existe, lo devolvemos
+      return res.status(200).json(books[isbn]);
+  } else {
+      // Si no existe, devolvemos un error 404
+      return res.status(404).json({message: "Libro no encontrado"});
+  }
  });
   
 // Get book details based on author
