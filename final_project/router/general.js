@@ -103,6 +103,7 @@ const getBooks = async () => {
         console.error(error);
     }
 }
+getBooks();
 const getBookByISBN = (isbn) => {
     axios.get(`http://localhost:5000/isbn/${isbn}`)
         .then(response => {
@@ -112,6 +113,17 @@ const getBookByISBN = (isbn) => {
             console.error("Error al buscar el ISBN:", error);
         });
 }
-getBookByISBN(1);
+getBookByISBN(1)
+// Tarea 12: Obtener detalles del libro por Autor usando async-await
+const getBookByAuthor = async (author) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/author/${author}`);
+        console.log(response.data);
+    } catch (error) {
+        console.error("Error al buscar por autor:", error);
+    }
+}
+
+getBookByAuthor("Chinua Achebe");
 module.exports.general = public_users;
 
