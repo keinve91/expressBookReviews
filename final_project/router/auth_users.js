@@ -58,6 +58,23 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
       return res.status(404).json({message: "Libro no encontrado"});
   }
 });
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const isbn = req.params.isbn;
+  
+  const username = req.session.authorization['username'];
+
+  if (books[isbn]) {
+      if (books[isbn].reviews[username]) {
+          // Usamos el operador 'delete' para eliminar la propiedad del objeto
+          delete books[isbn].reviews[username];
+          return res.status(200).send(`Reseña del libro ISBN ${isbn} eliminada exitosamente.`);
+      } else {
+          return res.status(404).json({message: "No tienes reseñas publicadas para este libro."});
+      }
+  } else {
+      return res.status(404).json({message: "Libro no encontrado"});
+  }
+});
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
