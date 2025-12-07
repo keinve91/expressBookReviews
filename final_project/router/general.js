@@ -1,8 +1,10 @@
+
 const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require('axios');
 
 
 // Register New User
@@ -93,5 +95,15 @@ public_users.get('/review/:isbn', function (req, res) {
       return res.status(404).json({message: "Libro no encontrado"});
   }
 });
+const getBooks = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/');
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+getBooks();
 
 module.exports.general = public_users;
+
