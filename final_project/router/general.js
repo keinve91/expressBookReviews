@@ -5,9 +5,24 @@ let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
 
+// Register New User
 public_users.post("/register", (req,res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (username && password) {
+    
+    const doesExist = users.some((user) => user.username === username);
+
+    if (doesExist) {
+      return res.status(404).json({message: "El usuario ya existe!"});
+    } else {
+      users.push({"username": username, "password": password});
+      return res.status(200).json({message: "Usuario registrado exitosamente. Ahora puedes iniciar sesión."});
+    }
+  }
+  
+  return res.status(404).json({message: "Error al registrar: Verifica usuario y contraseña."});
 });
 
 // Get the book list available in the shop
