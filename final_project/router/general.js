@@ -103,7 +103,15 @@ const getBooks = async () => {
         console.error(error);
     }
 }
-getBooks();
-
+const getBookByISBN = (isbn) => {
+    axios.get(`http://localhost:5000/isbn/${isbn}`)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error("Error al buscar el ISBN:", error);
+        });
+}
+getBookByISBN(1);
 module.exports.general = public_users;
 
