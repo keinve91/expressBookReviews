@@ -31,9 +31,27 @@ public_users.get('/isbn/:isbn', function (req, res) {
  });
   
 // Get book details based on author
-public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+public_users.get('/author/:author', function (req, res) {
+  const author = req.params.author;
+  
+  // 1. Obtenemos todas las claves del objeto 'books' (1, 2, 3...)
+  const bookKeys = Object.keys(books);
+  
+  const booksByAuthor = [];
+
+  // 2. Iteramos a través de las claves y verificamos si el autor coincide
+  bookKeys.forEach(key => {
+    if (books[key].author === author) {
+      booksByAuthor.push(books[key]);
+    }
+  });
+
+  // 3. Devolvemos la lista de libros encontrados
+  if (booksByAuthor.length > 0) {
+    return res.status(200).json(booksByAuthor);
+  } else {
+    return res.status(404).json({message: "Autor no encontrado"});
+  }
 });
 
 // Get all books based on title
